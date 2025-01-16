@@ -1,0 +1,23 @@
+include: package:very_good_analysis/analysis_options.yaml
+
+# You might want to exclude auto-generated files from dart analysis
+analyzer:
+  exclude:
+    - '**.freezed.dart'
+    - '**.g.dart'
+    - '**.config.dart'
+    - 'lib/utils/ui/translations/generated/**'
+    - 'pubspec.yaml'
+    - 'lib/firebase_options.dart'
+
+# You can customize the lint rules set to your own liking. A list of all rules
+# can be found at https://dart-lang.github.io/linter/lints/options/options.html
+linter:
+  rules:
+    prefer_expression_function_bodies: true
+    avoid_classes_with_only_static_members: true
+    public_member_api_docs: false
+    prefer_relative_imports: true
+    always_use_package_imports: false
+    avoid_positional_boolean_parameters: false
+    lines_longer_than_80_chars: false

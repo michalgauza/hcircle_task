@@ -1,0 +1,100 @@
+name: hcircle_task
+description: A new Flutter project.
+
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.3.0 <4.0.0'
+  flutter: '>=3.19.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  # ui
+  cupertino_icons: ^1.0.5
+  google_fonts: ^6.2.1
+  material_design_icons_flutter: 7.0.7296
+
+  # state management
+  flutter_bloc: ^8.0.1
+  flutter_hooks: ^0.20.5
+  # freezed
+  freezed_annotation: ^2.0.3
+  # functional programming
+  dartz: ^0.10.1
+  # localization
+  flutter_localizations:
+    sdk: flutter
+  intl: ^0.19.0
+  intl_utils: ^2.6.1
+  # navigation
+  auto_route: ^7.9.2
+  # http
+  dio: ^5.4.0
+  pretty_dio_logger: ^1.1.1
+  # dependency injection
+  get_it: ^7.2.0
+  injectable: ^2.3.2
+  # logger
+  logger: ^2.0.2+1
+  logging: ^1.2.0
+  # serialization
+  json_serializable: ^6.2.0
+  json_annotation: ^4.8.1
+  # splash and icon
+  flutter_native_splash: ^2.3.0
+  # utils
+  flutter_svg: ^2.0.7
+  very_good_analysis: ^5.1.0
+  collection: ^1.18.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+  # freezed
+  freezed: ^2.0.3+1
+  # build runners
+  build_runner: ^2.1.11
+  auto_route_generator: ^7.3.2
+  injectable_generator: ^2.4.1
+  # testing
+  bloc_test: ^9.0.3
+  mockito: ^5.2.0
+  flutter_gen_runner: ^5.3.1
+  flutter_launcher_icons: ^0.13.1
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/
+
+flutter_gen:
+  output: lib/utils/ui/gen/ # Optional (default: lib/gen/)
+  line_length: 80 # Optional (default: 80)
+
+flutter_intl:
+  enabled: true # Required. Must be set to true to activate the package. Default: false
+  class_name: Translation # Optional. Sets the name for the generated localization class. Default: S
+  main_locale: en # Optional. Sets the main locale used for generating localization files. Provided value should consist of language code and optional script and country codes separated with underscore (e.g. 'en', 'en_GB', 'zh_Hans', 'zh_Hans_CN'). Default: en
+  arb_dir: lib/utils/ui/translations/l10n # Optional. Sets the directory of your ARB resource files. Provided value should be a valid path on your system. Default: lib/l10n
+  output_dir: lib/utils/ui/translations/generated # Optional. Sets the directory of generated localization files. Provided value should be a valid path on your system. Default: lib/generated
+
+flutter_native_splash:
+  # flutter pub run flutter_native_splash:create
+  # flutter pub run flutter_native_splash:remove
+
+  color: "#1E1E1E"
+  #background_image: "assets/background.png"
+
+  image: assets/splash.png
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  adaptive_icon_background: "#FF000000"
+  image_path: "assets/icon_2.png"
+  remove_alpha_ios: true
+  min_sdk_android: 21 # android min sdk min:16, default 21
