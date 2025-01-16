@@ -4,18 +4,20 @@ import '../../../../../../utils/failure.dart';
 import '../../../../../../utils/ui/pagination/pagination_state.dart';
 import '../../../../domain/entity/movie.dart';
 
-part 'popular_movies_state.freezed.dart';
+part 'search_movies_state.freezed.dart';
 
 @freezed
-class PopularMoviesState with _$PopularMoviesState {
-  const factory PopularMoviesState.idle({
+class SearchMoviesState with _$SearchMoviesState {
+  const factory SearchMoviesState.initial() = _Initial;
+
+  const factory SearchMoviesState.idle({
     required List<Movie> movies,
     required int page,
     required int totalPages,
     required PaginationState paginationState,
   }) = _Indle;
 
-  const factory PopularMoviesState.loading() = _Loading;
+  const factory SearchMoviesState.loading() = _Loading;
 
-  const factory PopularMoviesState.error(Failure failure) = _Error;
+  const factory SearchMoviesState.error(Failure failure) = _Error;
 }

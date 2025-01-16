@@ -12,13 +12,14 @@ extension ContextExtension on BuildContext {
   void showErrorSnackBar(
     Failure failure, {
     SnackBarAction? action,
+    Duration duration = const Duration(seconds: 3),
   }) =>
       ScaffoldMessenger.of(this).showSnackBar(
         SnackBar(
           behavior: SnackBarBehavior.floating,
           backgroundColor: Colors.redAccent,
           actionOverflowThreshold: 1,
-          duration: const Duration(seconds: 3),
+          duration: duration,
           action: action,
           content: Text(
             failure.getMessage(this),
@@ -26,18 +27,6 @@ extension ContextExtension on BuildContext {
           ),
         ),
       );
-
-  //TODO remove if not needed
-  // void showSuccessSnackBar(String message) =>
-  //     ScaffoldMessenger.of(this).showSnackBar(
-  //       SnackBar(
-  //         behavior: SnackBarBehavior.floating,
-  //         content: Text(
-  //           message,
-  //           style: const TextStyle(fontSize: 14),
-  //         ),
-  //       ),
-  //     );
 
   Translation get translation => Translation.of(this);
 

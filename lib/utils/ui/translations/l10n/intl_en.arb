@@ -1,4 +1,9 @@
 {
-  "upssSomethingWentWrong": "Upss... Something when wrong",
-  "noInternetConnection": "No internet connection"
+  "upssSomethingWentWrong": "Upss... Something went wrong",
+  "noInternetConnection": "No internet connection",
+  "retry": "retry",
+  "details": "Details",
+  "searchMovies": "Search Movies",
+  "searchForMovies": "Search for movies",
+  "movieTitle": "Movie title"
 }

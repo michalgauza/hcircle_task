@@ -10,5 +10,13 @@ class AppRouter extends $AppRouter {
           page: PopularMoviesRoute.page,
           path: '/',
         ),
+        AutoRoute(
+          page: MovieDetailsRoute.page,
+          path: '/details',
+        ),
+        AutoRoute(
+          page: SearchMoviesRoute.page,
+          path: '/search',
+        ),
       ];
 }

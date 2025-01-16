@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../utils/failure.dart';
+import '../../../../utils/ui/extension/context_extension.dart';
 import '../../../../utils/ui/extension/failure_extension.dart';
 
 class AppErrorWidget extends StatelessWidget {
@@ -24,7 +25,7 @@ class AppErrorWidget extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 16),
                 child: ElevatedButton(
                   onPressed: retry,
-                  child: const Text('Retry'),
+                  child: Text(context.translation.retry),
                 ),
               ),
           ],

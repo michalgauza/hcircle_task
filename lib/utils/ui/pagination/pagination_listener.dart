@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../../features/core/ui/pages/popular_movies_page/cubit/popular_movies_cubit.dart';
+import '../extension/context_extension.dart';
+import 'pagination_helper.dart';
+import 'pagination_state.dart';
 
 mixin PaginationListener {
   void paginationListener({
@@ -10,12 +12,20 @@ mixin PaginationListener {
     required BuildContext context,
   }) {
     paginationState.whenOrNull(
-      error: (failure) => context.showErrorSnackBar(failure),
-      initial: () {
+      error: (failure) => context.showErrorSnackBar(
+        failure,
+        // Show snack bar all te time when error occurs so user can retry
+        duration: const Duration(days: 365),
+        action: SnackBarAction(
+          label: context.translation.retry,
+          onPressed: paginationHelper.retryFetch,
+        ),
+      ),
+      idle: () {
         scrollController.addListener(
-              () {
-            if (scrollController.position.pixels >=
-                scrollController.position.maxScrollExtent - 10) {
+          () {
+            final sPosition = scrollController.position;
+            if (sPosition.pixels >= sPosition.maxScrollExtent - 10) {
               paginationHelper.fetchNext();
             }
           },

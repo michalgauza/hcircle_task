@@ -1,46 +1,62 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../../../../../utils/debouncer.dart';
 import '../../../../../../utils/ui/pagination/pagination_helper.dart';
 import '../../../../../../utils/ui/pagination/pagination_state.dart';
 import '../../../../domain/entity/movie.dart';
-import '../../../../domain/entity/request/fetch_popular_movies_request.dart';
+import '../../../../domain/entity/request/search_movies_request.dart';
 import '../../../../domain/repo/tmdb_repo.dart';
-import 'popular_movies_state.dart';
-export 'popular_movies_state.dart';
+import 'search_movies_state.dart';
+export 'search_movies_state.dart';
 
 @injectable
-class PopularMoviesCubit extends Cubit<PopularMoviesState>
+class SearchMoviesCubit extends Cubit<SearchMoviesState>
     with PaginationHelperMixin
     implements PaginationHelper {
-  PopularMoviesCubit(this._tmdbRepo)
-      : super(const PopularMoviesState.loading());
+  SearchMoviesCubit(this._tmdbRepo) : super(const SearchMoviesState.initial());
   final TmdbRepo _tmdbRepo;
+
+  final _debouncer = Debouncer(milliseconds: 500);
 
   PaginationState _paginationState = const PaginationState.idle();
   final List<Movie> _movies = [];
 
-  PopularMoviesState get _getIdle => PopularMoviesState.idle(
+  SearchMoviesState get _getIdle => SearchMoviesState.idle(
         movies: _movies,
         page: page,
         totalPages: totalPages,
         paginationState: _paginationState,
       );
 
-  Future<void> init() async {
-    emit(
-      (await _tmdbRepo.fetchPopularMovies(
-        FetchPopularMoviesRequest(page: page),
-      ))
-          .fold(
-        PopularMoviesState.error,
-        (response) {
-          updatePages(response);
-          _movies.addAll(response.results);
+  String query = '';
+
+  void searchMovies(String q) {
+    query = q;
+    _debouncer.cancel();
+    if (query.isEmpty) {
+      emit(const SearchMoviesState.initial());
+      return;
+    }
+    emit(const SearchMoviesState.loading());
+    _debouncer.run(() async {
+      var state =
+          (await _tmdbRepo.searchMovies(SearchMoviesRequest(query: query)))
+              .fold(
+        SearchMoviesState.error,
+        (r) {
+          _movies
+            ..clear()
+            ..addAll(r.results);
+          updatePages(r);
           return _getIdle;
         },
-      ),
-    );
+      );
+      if (query.isEmpty) {
+        state = const SearchMoviesState.initial();
+      }
+      emit(state);
+    });
   }
 
   @override
@@ -68,8 +84,11 @@ class PopularMoviesCubit extends Cubit<PopularMoviesState>
     _paginationState = const PaginationState.loading();
     emit(_getIdle);
     // Fetch next page
-    _paginationState = (await _tmdbRepo.fetchPopularMovies(
-      FetchPopularMoviesRequest(page: page),
+    _paginationState = (await _tmdbRepo.searchMovies(
+      SearchMoviesRequest(
+        query: query,
+        page: page,
+      ),
     ))
         .fold(
       // Change PaginationState to error
@@ -83,10 +102,5 @@ class PopularMoviesCubit extends Cubit<PopularMoviesState>
     );
     // Emit updated state
     emit(_getIdle);
-  }
-
-  Future<void> retry() async {
-    emit(const PopularMoviesState.loading());
-    await init();
   }
 }

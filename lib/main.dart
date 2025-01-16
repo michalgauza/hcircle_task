@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -15,11 +14,6 @@ import 'utils/ui/translations/generated/l10n.dart';
 // In Poland it's most popular that companies provide computer for their employees, even on B2B.
 // I need to buy a Mac ASAP :D
 // But I assure you that I know how to write app that works on IOS.
-
-// TODO(Michal): TODO list
-// 1. tests
-// 2. remove unwanted code
-// 3. check todos
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -52,6 +46,7 @@ class App extends HookWidget {
         ],
         routerConfig: _appRouter.config(),
         theme: ThemeData(
+          colorSchemeSeed: Colors.amber,
           // elevatedButtonTheme: ElevatedButtonThemeData(
           //   style: ElevatedButton.styleFrom(
           //     backgroundColor: const Color(0xFFDDE4F0),

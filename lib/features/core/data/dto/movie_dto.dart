@@ -12,6 +12,9 @@ class MovieDto with _$MovieDto {
     required int id,
     required String title,
     required String originalTitle,
+    required String releaseDate,
+    required String? posterPath,
+    required double voteAverage,
   }) = _MovieDto;
 
   factory MovieDto.fromJson(Map<String, dynamic> json) =>
@@ -23,5 +26,10 @@ extension MovieDtoExtension on MovieDto {
         id: id,
         title: title,
         originalTitle: originalTitle,
+        releaseDate: releaseDate,
+        // Magick links from documentation https://developer.themoviedb.org/docs/image-basics
+        smallPoster: 'https://image.tmdb.org/t/p/w300/$posterPath',
+        bigPoster: 'https://image.tmdb.org/t/p/original/$posterPath',
+        rating: voteAverage,
       );
 }

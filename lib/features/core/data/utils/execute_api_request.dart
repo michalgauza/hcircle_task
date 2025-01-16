@@ -24,6 +24,9 @@ Future<Either<Failure, T>> executeApiRequest<T>(
           return left(const Failure.unknown());
         }
       }
+      if (e.type == DioExceptionType.connectionError) {
+        return left(const Failure.noInternetConnection());
+      }
       return left(const Failure.unknown());
     }
     return left(const Failure.unknown());

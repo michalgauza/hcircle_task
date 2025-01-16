@@ -8,5 +8,9 @@ class Movie with _$Movie {
     required int id,
     required String title,
     required String originalTitle,
+    required String releaseDate,
+    required String smallPoster,
+    required String bigPoster,
+    required double rating,
   }) = _Movie;
 }
