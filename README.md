@@ -15,8 +15,8 @@ flutter pub run build_runner build --delete-conflicting-outputs
 flutter pub run intl_generator:generate
 ```
 
-### Run app with dev flavor with api key
+### Run app with dev flavor and with api key
 
 ```bash 
-flutter build apk --flavor dev --dart-define tmdb_api_key=[PASS YOUR API KEY HERE],
+flutter run lib/main.dart --flavor dev --dart-define tmdb_api_key=[YOUR_API_KEY]
 ```

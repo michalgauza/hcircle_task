@@ -16,19 +16,18 @@ class EnvironmentManager {
   static String get tmdbApiKey => _tmdbApiKey;
 
   /// Run this method before the app starts to initialize the environment.
-  static Future<void> init() async {
+  static void init()  {
     const apiKey = String.fromEnvironment('tmdb_api_key');
     if (apiKey.isEmpty) {
-      throw PlatformException(
-        code: 'tmdb_api_key_not_set',
-        message:
-            'Please set the TMDB API key in run configuration.',
+      throw Exception(
+        'tmdb_api_key not set. Please set the TMDB API key in run configuration.',
       );
     }
+    _tmdbApiKey = apiKey;
     _current = switch (appFlavor) {
       'dev' => EnvironmentType.dev,
-      _ => throw UnimplementedError(
-          'Unknown flavor: $appFlavor. Please use one of the following: ${EnvironmentType.values}',
+      _ => throw Exception(
+          'Unknown flavor: $appFlavor. Please use one of the following: ${EnvironmentType.values.map((e) => e.name)}',
         ),
     };
   }
