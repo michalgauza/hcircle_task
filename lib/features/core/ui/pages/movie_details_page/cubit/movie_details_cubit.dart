@@ -22,8 +22,8 @@ class MovieDetailsCubit extends Cubit<MovieDetailsState> {
         FetchMovieDetailsRequest(id: movieId),
       ))
           .fold(
-        MovieDetailsState.error,
-        MovieDetailsState.loaded,
+        (l) => MovieDetailsState.error(l),
+        (r) => MovieDetailsState.loaded(r),
       ),
     );
   }

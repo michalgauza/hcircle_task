@@ -2,20 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
-import '../../../../../../utils/ui/pagination/pagination_listener.dart';
-import '../../../common_widgets/app_error_widget.dart';
-import '../../../common_widgets/app_loader.dart';
-import '../../../common_widgets/movie_tile.dart';
-import '../../../common_widgets/pagination_loader.dart';
-import '../cubit/popular_movies_cubit.dart';
+import '../../../../../../../utils/ui/pagination/pagination_listener.dart';
+import '../../../../common_widgets/app_error_widget.dart';
+import '../../../../common_widgets/app_loader.dart';
+import '../../../../common_widgets/movie_tile.dart';
+import '../../../../common_widgets/pagination_loader.dart';
+import 'cubit/top_rated_movies_cubit.dart';
 
-class PopularMoviesBody extends HookWidget with PaginationListener {
-  const PopularMoviesBody({super.key});
+class TopRatedMoviesBody extends HookWidget with PaginationListener {
+  const TopRatedMoviesBody({super.key});
 
   @override
   Widget build(BuildContext context) {
     final scrollController = useScrollController();
-    return BlocConsumer<PopularMoviesCubit, PopularMoviesState>(
+    return BlocConsumer<TopRatedMoviesCubit, TopRatedMoviesState>(
       listener: (_, state) {
         state.mapOrNull(
           idle: (idle) {
@@ -23,7 +23,7 @@ class PopularMoviesBody extends HookWidget with PaginationListener {
               context: context,
               paginationState: idle.paginationState,
               scrollController: scrollController,
-              paginationHelper: context.read<PopularMoviesCubit>(),
+              paginationHelper: context.read<TopRatedMoviesCubit>(),
             );
           },
         );
@@ -48,7 +48,7 @@ class PopularMoviesBody extends HookWidget with PaginationListener {
         loading: (_) => const AppLoader(),
         error: (error) => AppErrorWidget(
           failure: error.failure,
-          retry: context.read<PopularMoviesCubit>().retry,
+          retry: context.read<TopRatedMoviesCubit>().retry,
         ),
       ),
     );

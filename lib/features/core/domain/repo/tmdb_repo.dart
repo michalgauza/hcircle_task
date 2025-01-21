@@ -9,6 +9,10 @@ import '../entity/request/search_movies_request.dart';
 import '../entity/response/pagination_response.dart';
 
 abstract class TmdbRepo {
+  Future<Either<Failure, PaginationResponse<Movie>>> fetchTopRatedMovies(
+    FetchPopularMoviesRequest request,
+  );
+
   Future<Either<Failure, PaginationResponse<Movie>>> fetchPopularMovies(
     FetchPopularMoviesRequest request,
   );

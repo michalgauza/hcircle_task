@@ -1,26 +1,47 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../../../../../utils/ui/pagination/pagination_helper.dart';
-import '../../../../../../utils/ui/pagination/pagination_state.dart';
-import '../../../../domain/entity/movie.dart';
-import '../../../../domain/entity/request/fetch_popular_movies_request.dart';
-import '../../../../domain/repo/tmdb_repo.dart';
-import 'popular_movies_state.dart';
-export 'popular_movies_state.dart';
+import '../../../../../../../../utils/ui/pagination/pagination_helper.dart';
+import '../../../../../../../../utils/ui/pagination/pagination_state.dart';
+import '../../../../../../domain/entity/movie.dart';
+import '../../../../../../domain/entity/request/fetch_popular_movies_request.dart';
+import '../../../../../../domain/entity/response/pagination_response.dart';
+import '../../../../../../domain/repo/tmdb_repo.dart';
+import 'top_rated_movies_state.dart';
+export 'top_rated_movies_state.dart';
 
 @injectable
-class PopularMoviesCubit extends Cubit<PopularMoviesState>
-    with PaginationHelperMixin
+class TopRatedMoviesCubit extends Cubit<TopRatedMoviesState>
+    // with PaginationHelperMixin
     implements PaginationHelper {
-  PopularMoviesCubit(this._tmdbRepo)
-      : super(const PopularMoviesState.loading());
+  TopRatedMoviesCubit(this._tmdbRepo)
+      : super(const TopRatedMoviesState.loading());
+
+  int _page = 1;
+
+  int get page => _page;
+  int _totalPages = 2;
+
+  int get totalPages => _totalPages;
+
+  void updatePages<T>(PaginationResponse<T> response) {
+    _totalPages = response.totalPages;
+    _page++;
+  }
+
+  PaginationState get getPaginationState => _totalPages < _page
+      ? const PaginationState.end()
+      : const PaginationState.idle();
+
+
+
+
   final TmdbRepo _tmdbRepo;
 
   PaginationState _paginationState = const PaginationState.idle();
   final List<Movie> _movies = [];
 
-  PopularMoviesState get _getIdle => PopularMoviesState.idle(
+  TopRatedMoviesState get _getIdle => TopRatedMoviesState.idle(
         movies: _movies,
         page: page,
         totalPages: totalPages,
@@ -29,11 +50,11 @@ class PopularMoviesCubit extends Cubit<PopularMoviesState>
 
   Future<void> init() async {
     emit(
-      (await _tmdbRepo.fetchPopularMovies(
+      (await _tmdbRepo.fetchTopRatedMovies(
         FetchPopularMoviesRequest(page: page),
       ))
           .fold(
-        PopularMoviesState.error,
+        TopRatedMoviesState.error,
         (response) {
           updatePages(response);
           _movies.addAll(response.results);
@@ -68,7 +89,7 @@ class PopularMoviesCubit extends Cubit<PopularMoviesState>
     _paginationState = const PaginationState.loading();
     emit(_getIdle);
     // Fetch next page
-    _paginationState = (await _tmdbRepo.fetchPopularMovies(
+    _paginationState = (await _tmdbRepo.fetchTopRatedMovies(
       FetchPopularMoviesRequest(page: page),
     ))
         .fold(
@@ -86,7 +107,7 @@ class PopularMoviesCubit extends Cubit<PopularMoviesState>
   }
 
   Future<void> retry() async {
-    emit(const PopularMoviesState.loading());
+    emit(const TopRatedMoviesState.loading());
     await init();
   }
 }

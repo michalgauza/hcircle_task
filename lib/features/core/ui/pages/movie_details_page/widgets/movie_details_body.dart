@@ -28,6 +28,10 @@ class MovieDetailsBody extends StatelessWidget {
                   movie.bigPoster,
                   errorBuilder: (_, __, ___) =>
                       const Icon(Icons.error_outline_sharp),
+                  loadingBuilder: (_, child, loadingProgress) {
+                    if (loadingProgress == null) return child;
+                    return const AppLoader();
+                  },
                 ),
               ),
               const SizedBox(height: 16),

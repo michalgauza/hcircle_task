@@ -99,7 +99,7 @@ void main() {
       final result = await mockTmdbRepo.fetchMovieDetails(request);
 
       // Assert
-      expect(result, Left(Failure.unknown()));
+      expect(result, const Left(Failure.unknown()));
     });
   });
 

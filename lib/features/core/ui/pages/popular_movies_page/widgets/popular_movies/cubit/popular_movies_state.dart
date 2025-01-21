@@ -1,8 +1,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../../../../utils/failure.dart';
-import '../../../../../../utils/ui/pagination/pagination_state.dart';
-import '../../../../domain/entity/movie.dart';
+import '../../../../../../../../utils/failure.dart';
+import '../../../../../../../../utils/ui/pagination/pagination_state.dart';
+import '../../../../../../domain/entity/movie.dart';
 
 part 'popular_movies_state.freezed.dart';
 

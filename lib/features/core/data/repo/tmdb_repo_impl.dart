@@ -26,6 +26,26 @@ class TmdbRepoImpl implements TmdbRepo {
   final Dio _dio;
 
   @override
+  Future<Either<Failure, PaginationResponse<Movie>>> fetchTopRatedMovies(
+    FetchPopularMoviesRequest request,
+  ) =>
+      executeApiRequest(
+        () async => PaginationResponseDto.fromJson(
+          (await _dio.get<Map<String, dynamic>>(
+            'https://api.themoviedb.org/3/movie/top_rated',
+            queryParameters: {
+              'api_key': EnvironmentManager.tmdbApiKey,
+              ...FetchPopularMoviesRequestDto.fromDomain(request).toJson(),
+            },
+          ))
+              .data!,
+        ).toDomain(
+          (data) => data.map((e) => MovieDto.fromJson(e).toDomain()).toList(),
+        ),
+        'fetchTopRatedMovies',
+      );
+
+  @override
   Future<Either<Failure, PaginationResponse<Movie>>> fetchPopularMovies(
     FetchPopularMoviesRequest request,
   ) =>
